@@ -23,6 +23,9 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     this.url = url;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public CloseableConnection<T> open() {
     try {
@@ -34,6 +37,9 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     return this;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public CloseableConnection<T> openHandlingException() throws IOException {
     this.connection = (HttpURLConnection) new URL(url).openConnection();
@@ -41,6 +47,9 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     return this;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void close() {
     if (connection != null) {
@@ -48,16 +57,25 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setType(Class<T> clazz) {
     this.token = TypeToken.get(clazz);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setType(TypeToken<T> token) {
     this.token = token;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void setRequestMethod(HttpMethod method) {
     try {
@@ -67,11 +85,17 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public <V> void addRequestField(RequestField field, V value) {
     connection.setRequestProperty(field.parse(), value.toString());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void addRequestFields(Map<RequestField, ?> map) {
     for (Entry<RequestField, ?> entry : map.entrySet()) {
@@ -79,6 +103,9 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public HttpResponse<T> execute() throws FailedConnectionException {
     try {

@@ -19,11 +19,17 @@ public final class WrappedHttpResponse<T> implements HttpResponse<T> {
     this.token = token;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public T result() {
     return GSON.fromJson(result, token.getType());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int code() {
     return code;

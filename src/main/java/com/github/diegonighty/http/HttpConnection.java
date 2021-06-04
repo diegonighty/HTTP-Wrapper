@@ -11,6 +11,9 @@ public interface HttpConnection<T> {
    */
   void setType(Class<T> clazz);
 
+  /**
+   * Set the type of object that will be serialized
+   */
   void setType(TypeToken<T> token);
 
   /**
@@ -38,8 +41,19 @@ public interface HttpConnection<T> {
    */
   void addRequestFields(Map<RequestField, ?> map);
 
+  /**
+   * Execute the HTTP request
+   *
+   * @return HttpResponse contains the response serialized and the status code
+   * @throws FailedConnectionException if api is not responding
+   */
   HttpResponse<T> execute() throws FailedConnectionException;
 
+
+  /**
+   * HTTP Methods for the request
+   * @see <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"> List of method request and usage </a>
+   */
   enum HttpMethod {
 
     GET,
@@ -49,6 +63,10 @@ public interface HttpConnection<T> {
 
   }
 
+  /**
+   * HTTP headers for the request
+   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
+   */
   enum RequestField {
 
     A_IM,
@@ -92,6 +110,10 @@ public interface HttpConnection<T> {
     VIA,
     WARNING;
 
+    /**
+     * parse http header to string
+     * @return Header parsed
+     */
     public String parse() {
       return toString().replace("_", "-");
     }
