@@ -8,11 +8,15 @@ public interface HttpConnection<T> {
 
   /**
    * Set the type of object that will be serialized
+   *
+   * @param clazz Class type of object for the response
    */
   void setType(Class<T> clazz);
 
   /**
    * Set the type of object that will be serialized
+   *
+   * @param token T
    */
   void setType(TypeToken<T> token);
 
