@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+group 'com.github.diegonighty.httpwrapper'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.0'
+}
