@@ -9,6 +9,7 @@ import java.util.UUID;
 public class Test {
 
   public static void main(String[] args) {
+
     try {
       test();
     } catch (Exception e) {
@@ -22,7 +23,7 @@ public class Test {
 
       connection.setType(MojangProfile.class);
       connection.setRequestMethod(HttpMethod.GET);
-      connection.addRequestField(RequestField.User_Agent, "Mozilla/5.0");
+      connection.addRequestField(RequestField.USER_AGENT, "Mozilla/5.0");
 
       try {
         HttpResponse<MojangProfile> response = connection.execute();
