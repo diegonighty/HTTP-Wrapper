@@ -63,10 +63,10 @@ This is an example of how to list things you need to use the software and how to
 
 * Maven
   ```xml
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
+  <repository>
+	  <id>jitpack.io</id>
+	  <url>https://jitpack.io</url>
+  </repository>
   		
   <dependency>
       <groupId>com.github.diegonighty</groupId>
@@ -87,7 +87,7 @@ _For more examples, please refer to the [Documentation](https://diegonighty.gith
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/DiegoNighty/HTTP-Wrapper/issues) for a list of proposed features (and known issues).
 
 
 
