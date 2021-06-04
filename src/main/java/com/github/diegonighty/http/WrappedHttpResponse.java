@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 public final class WrappedHttpResponse<T> implements HttpResponse<T> {
 
-  private final Gson GSON = new Gson();
+  private static final Gson GSON = new Gson();
 
   private final String result;
   private final int code;
