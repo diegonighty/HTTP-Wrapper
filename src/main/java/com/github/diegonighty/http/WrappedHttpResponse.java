@@ -1,7 +1,9 @@
 package com.github.diegonighty.http;
 
+import com.github.diegonighty.http.serialization.ResponseDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 
 public final class WrappedHttpResponse<T> implements HttpResponse<T> {
 
@@ -11,12 +13,14 @@ public final class WrappedHttpResponse<T> implements HttpResponse<T> {
   private final int code;
 
   private final TypeToken<T> token;
+  private final ResponseDeserializer<T> deserializer;
 
-  public WrappedHttpResponse(String result, int code, TypeToken<T> token) {
+  public WrappedHttpResponse(String result, int code, TypeToken<T> token, ResponseDeserializer<T> deserializer) {
     this.result = result;
     this.code = code;
 
     this.token = token;
+    this.deserializer = deserializer;
   }
 
   /**
@@ -24,7 +28,17 @@ public final class WrappedHttpResponse<T> implements HttpResponse<T> {
    */
   @Override
   public T result() {
-    return GSON.fromJson(result, token.getType());
+    T object;
+
+    if (deserializer != null) {
+      object = deserializer.deserialize(result);
+    } else if (token != null) {
+      object = GSON.fromJson(result, token.getType());
+    } else {
+      object = GSON.fromJson(result, new TypeToken<T>() {}.getType());
+    }
+
+    return object;
   }
 
   /**

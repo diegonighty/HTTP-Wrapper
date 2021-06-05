@@ -1,6 +1,7 @@
 package com.github.diegonighty.http;
 
 import com.github.diegonighty.http.exception.FailedConnectionException;
+import com.github.diegonighty.http.serialization.ResponseDeserializer;
 import com.google.gson.reflect.TypeToken;
 import java.util.Map;
 
@@ -19,6 +20,13 @@ public interface HttpConnection<T> {
    * @param token T
    */
   void setType(TypeToken<T> token);
+
+  /**
+   * Set the custom deserializer, this replace the GSON default deserializer
+   *
+   * @param deserializer The custom deserializer for the JSON Response
+   */
+  void setResponseDeserializer(ResponseDeserializer<T> deserializer);
 
   /**
    * Set method to http request
