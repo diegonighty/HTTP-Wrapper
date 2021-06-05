@@ -1,4 +1,5 @@
 
 com.github.diegonighty.http
 com.github.diegonighty.http.exception
+com.github.diegonighty.http.serialization
 com.github.diegonighty.http.terminable
