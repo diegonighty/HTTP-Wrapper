@@ -57,7 +57,7 @@ This is an example of how to list things you need to use the software and how to
   }
  
   dependencies {
-	     implementation 'com.github.DiegoNighty:HTTP-Wrapper:v1.0'
+	     implementation 'com.github.DiegoNighty:HTTP-Wrapper:v1.1'
   }
   ```
 
@@ -71,7 +71,7 @@ This is an example of how to list things you need to use the software and how to
   <dependency>
       <groupId>com.github.diegonighty</groupId>
       <artifactId>HTTP-Wrapper</artifactId>
-      <version>v1.0</version>
+      <version>v1.1</version>
   </dependency>
   ```
 
