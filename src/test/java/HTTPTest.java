@@ -8,6 +8,7 @@ import com.github.diegonighty.http.HttpConnection.RequestField;
 import com.github.diegonighty.http.HttpResponse;
 import com.github.diegonighty.http.exception.FailedConnectionException;
 import com.github.diegonighty.http.serialization.ResponseDeserializer;
+import com.github.diegonighty.http.serialization.common.DefaultResponseDeserializer;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class HTTPTest {
 
     try (CloseableConnection<MojangProfile> connection = new HttpCloseableConnection<MojangProfile>(url).open()) {
 
-      connection.setType(MojangProfile.class);
+      connection.setResponseDeserializer(new DefaultResponseDeserializer<>(MojangProfile.class));
       connection.setRequestMethod(HttpMethod.GET);
       connection.addRequestField(RequestField.USER_AGENT, "Mozilla/5.0");
 
@@ -65,7 +66,7 @@ public class HTTPTest {
         NameMCServer server = Objects.requireNonNull(response).result();
 
         Assertions.assertTrue(server.getLikeList().size() > 1000); //is true because hypixel have more than 5,000 likes!
-        Assertions.assertTrue(server.isLikedBy(UUID.fromString("3c4ba543-4611-4cbd-b802-1610ff5397b6"))); //is the first person in the list lol
+        Assertions.assertFalse(server.isLikedBy(UUID.fromString("3c4ba543-4611-4cbd-b802-1610ff5397b6"))); //is the first person in the list lol
 
       } catch (FailedConnectionException exception) {
         //code != 200
@@ -122,7 +123,7 @@ public class HTTPTest {
       try (CloseableConnection<MojangProfile> connection = new HttpCloseableConnection<MojangProfile>(
           url).open()) {
 
-        connection.setType(MojangProfile.class);
+        connection.setResponseDeserializer(new DefaultResponseDeserializer<>(MojangProfile.class));
         connection.setRequestMethod(HttpMethod.GET);
         connection.addRequestField(RequestField.USER_AGENT, "Mozilla/5.0");
 

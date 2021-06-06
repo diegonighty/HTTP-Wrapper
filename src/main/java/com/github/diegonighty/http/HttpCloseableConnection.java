@@ -2,6 +2,7 @@ package com.github.diegonighty.http;
 
 import com.github.diegonighty.http.exception.FailedConnectionException;
 import com.github.diegonighty.http.serialization.ResponseDeserializer;
+import com.github.diegonighty.http.serialization.common.DefaultResponseDeserializer;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,8 +17,6 @@ import java.util.Map.Entry;
 public final class HttpCloseableConnection<T> implements CloseableConnection<T> {
 
   private HttpURLConnection connection;
-
-  private TypeToken<T> token;
   private ResponseDeserializer<T> deserializer;
 
   private final String url;
@@ -58,22 +57,6 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     if (connection != null) {
       connection.disconnect();
     }
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void setType(Class<T> clazz) {
-    this.token = TypeToken.get(clazz);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void setType(TypeToken<T> token) {
-    this.token = token;
   }
 
   /**
@@ -126,7 +109,7 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
         throw new FailedConnectionException("Server is not responding");
       }
 
-      return new WrappedHttpResponse<>(getResult(connection.getInputStream()), connection.getResponseCode(), token, deserializer);
+      return new WrappedHttpResponse<>(getResult(connection.getInputStream()), connection.getResponseCode(), deserializer);
     } catch (IOException e) {
       e.printStackTrace();
     }
