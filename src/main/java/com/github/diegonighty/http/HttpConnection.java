@@ -1,26 +1,11 @@
 package com.github.diegonighty.http;
 
-import com.github.diegonighty.http.exception.FailedConnectionException;
-import com.github.diegonighty.http.serialization.ResponseDeserializer;
-import com.google.gson.reflect.TypeToken;
+import com.github.diegonighty.http.request.types.HttpGetRequest;
+import com.github.diegonighty.http.request.types.HttpPostRequest;
+import com.github.diegonighty.http.util.HeaderMap;
 import java.util.Map;
 
 public interface HttpConnection<T> {
-
-  /**
-   * Set the custom deserializer, this replace the GSON default deserializer
-   *
-   * @param deserializer The custom deserializer for the JSON Response
-   */
-  void setResponseDeserializer(ResponseDeserializer<T> deserializer);
-
-  /**
-   * Set method to http request
-   * @see <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"> List of request methods </a>
-   *
-   * @param method HttpMethod that will be used in the request
-   */
-  void setRequestMethod(HttpMethod method);
 
   /**
    * Add header to http request
@@ -29,7 +14,18 @@ public interface HttpConnection<T> {
    * @param field Field that will be added in the headers of the request
    * @param value Value of the field, this will be serialized to string
    */
-  <V> void addRequestField(RequestField field, V value);
+  default <V> HttpConnection<T> addRequestField(RequestField field, V value) {
+    return addRequestField(field.parse(), value);
+  }
+
+  /**
+   * Add header to http request
+   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
+   *
+   * @param field Field that will be added in the headers of the request
+   * @param value Value of the field, this will be serialized to string
+   */
+  <V> HttpConnection<T> addRequestField(String field, V value);
 
   /**
    * Add headers to http request
@@ -37,29 +33,31 @@ public interface HttpConnection<T> {
    *
    * @param map Map containing all fields and values, the values will be serialized to string
    */
-  void addRequestFields(Map<RequestField, ?> map);
-
-  /**
-   * Execute the HTTP request
-   *
-   * @return HttpResponse contains the response serialized and the status code
-   * @throws FailedConnectionException if api is not responding
-   */
-  HttpResponse<T> execute() throws FailedConnectionException;
-
-
-  /**
-   * HTTP Methods for the request
-   * @see <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"> List of method request and usage </a>
-   */
-  enum HttpMethod {
-
-    GET,
-    POST,
-    UPDATE,
-    DELETE
-
+  default HttpConnection<T> addRequestFields(HeaderMap map) {
+    return addRequestFields(map.getHeaderMap());
   }
+
+  /**
+   * Add headers to http request
+   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
+   *
+   * @param map Map containing all fields and values, the values will be serialized to string
+   */
+  HttpConnection<T> addRequestFields(Map<String, Object> map);
+
+  /**
+   * Performs a get request
+   *
+   * @return get request
+   */
+  HttpGetRequest<T> createGetRequest();
+
+  /**
+   * Performs a post request
+   *
+   * @return post request
+   */
+  HttpPostRequest<T> createPostRequest();
 
   /**
    * HTTP headers for the request

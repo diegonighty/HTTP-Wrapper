@@ -27,7 +27,7 @@
   <h3 align="center">HTTP Wrapper</h3>
 
   <p align="center">
-    An Java 8 HTTP Wrapper Lib using GSON to deserialize the response!
+    A Java 8 HTTP Wrapper Lib to deserialize the response!
     <br />
     <a href="https://diegonighty.github.io/HTTP-Wrapper/"><strong>Explore the docs »</strong></a>
     <br />
@@ -71,14 +71,14 @@ This is an example of how to list things you need to use the software and how to
   <dependency>
       <groupId>com.github.diegonighty</groupId>
       <artifactId>HTTP-Wrapper</artifactId>
-      <version>v1.1</version>
+      <version>v2.0</version>
   </dependency>
   ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-In the test package [here](https://github.com/DiegoNighty/HTTP-Wrapper/blob/main/src/test/java/HTTPTest.java) you can view a example code
+In the test package [here](https://github.com/DiegoNighty/HTTP-Wrapper/blob/main/src/test/java/com/github/diegonighty/http/test/HTTPTest.java) you can view a example code
 
 _For more examples, please refer to the [Documentation](https://diegonighty.github.io/HTTP-Wrapper/)_
 

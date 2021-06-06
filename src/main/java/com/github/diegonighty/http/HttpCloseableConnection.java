@@ -1,13 +1,10 @@
 package com.github.diegonighty.http;
 
-import com.github.diegonighty.http.exception.FailedConnectionException;
-import com.github.diegonighty.http.serialization.ResponseDeserializer;
-import com.github.diegonighty.http.serialization.common.DefaultResponseDeserializer;
-import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
+import com.github.diegonighty.http.request.types.HttpGetRequest;
+import com.github.diegonighty.http.request.types.HttpPostRequest;
+import com.github.diegonighty.http.request.types.WrappedHttpGetRequest;
+import com.github.diegonighty.http.request.types.WrappedHttpPostRequest;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -17,7 +14,6 @@ import java.util.Map.Entry;
 public final class HttpCloseableConnection<T> implements CloseableConnection<T> {
 
   private HttpURLConnection connection;
-  private ResponseDeserializer<T> deserializer;
 
   private final String url;
 
@@ -32,11 +28,12 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
   public CloseableConnection<T> open() {
     try {
       this.connection = (HttpURLConnection) new URL(url).openConnection();
+      return this;
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    return this;
+    return null;
   }
 
   /**
@@ -63,72 +60,43 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
    * {@inheritDoc}
    */
   @Override
-  public void setResponseDeserializer(ResponseDeserializer<T> deserializer) {
-    this.deserializer = deserializer;
+  public <V> HttpConnection<T> addRequestField(String field, V value) {
+    connection.setRequestProperty(field, value.toString());
+    return this;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void setRequestMethod(HttpMethod method) {
+  public HttpConnection<T> addRequestFields(Map<String, Object> map) {
+    for (Entry<String, Object> entry : map.entrySet()) {
+      addRequestField(entry.getKey(), entry.getValue());
+    }
+
+    return this;
+  }
+
+  @Override
+  public HttpGetRequest<T> createGetRequest() {
+    setMethod("GET");
+
+    return new WrappedHttpGetRequest<>(connection);
+  }
+
+  @Override
+  public HttpPostRequest<T> createPostRequest() {
+    setMethod("POST");
+
+    return new WrappedHttpPostRequest<>(connection);
+  }
+
+  private void setMethod(String method) {
     try {
-      connection.setRequestMethod(method.name());
+      connection.setRequestMethod(method);
     } catch (ProtocolException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public <V> void addRequestField(RequestField field, V value) {
-    connection.setRequestProperty(field.parse(), value.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void addRequestFields(Map<RequestField, ?> map) {
-    for (Entry<RequestField, ?> entry : map.entrySet()) {
-      addRequestField(entry.getKey(), entry.getValue());
-    }
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public HttpResponse<T> execute() throws FailedConnectionException {
-    try {
-      connection.connect();
-
-      if (connection.getResponseCode() != 200) {
-        throw new FailedConnectionException("Server is not responding");
-      }
-
-      return new WrappedHttpResponse<>(getResult(connection.getInputStream()), connection.getResponseCode(), deserializer);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
-  }
-
-  private String getResult(InputStream stream) {
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-
-      final StringBuilder resultBuilder = new StringBuilder();
-      reader.lines().forEachOrdered(resultBuilder::append);
-
-      return resultBuilder.toString();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
   }
 
 }
