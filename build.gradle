@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.diegonighty.httpwrapper'
-version '1.0'
+version 'v1.2'
 
 repositories {
     mavenCentral()
