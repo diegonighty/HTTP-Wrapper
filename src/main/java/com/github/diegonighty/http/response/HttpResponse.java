@@ -1,4 +1,4 @@
-package com.github.diegonighty.http;
+package com.github.diegonighty.http.response;
 
 public interface HttpResponse<T> {
 

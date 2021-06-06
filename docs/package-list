@@ -1,5 +1,10 @@
-
 com.github.diegonighty.http
 com.github.diegonighty.http.exception
+com.github.diegonighty.http.request
+com.github.diegonighty.http.request.types
+com.github.diegonighty.http.response
 com.github.diegonighty.http.serialization
+com.github.diegonighty.http.serialization.common
 com.github.diegonighty.http.terminable
+com.github.diegonighty.http.test
+com.github.diegonighty.http.util

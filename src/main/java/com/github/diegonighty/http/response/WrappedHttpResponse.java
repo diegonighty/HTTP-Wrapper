@@ -1,15 +1,15 @@
-package com.github.diegonighty.http;
+package com.github.diegonighty.http.response;
 
 import com.github.diegonighty.http.serialization.ResponseDeserializer;
 
-public final class WrappedHttpResponse<T> implements HttpResponse<T> {
+public final class WrappedHttpResponse<R> implements HttpResponse<R> {
 
   private final String result;
   private final int code;
 
-  private final ResponseDeserializer<T> deserializer;
+  private final ResponseDeserializer<R> deserializer;
 
-  public WrappedHttpResponse(String result, int code, ResponseDeserializer<T> deserializer) {
+  public WrappedHttpResponse(String result, int code, ResponseDeserializer<R> deserializer) {
     this.result = result;
     this.code = code;
 
@@ -20,7 +20,7 @@ public final class WrappedHttpResponse<T> implements HttpResponse<T> {
    * {@inheritDoc}
    */
   @Override
-  public T result() {
+  public R result() {
     return deserializer.deserialize(result);
   }
 
