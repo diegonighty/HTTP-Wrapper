@@ -1,7 +1,9 @@
 package com.github.diegonighty.http;
 
+import com.github.diegonighty.http.request.types.HttpDeleteRequest;
 import com.github.diegonighty.http.request.types.HttpGetRequest;
 import com.github.diegonighty.http.request.types.HttpPostRequest;
+import com.github.diegonighty.http.request.types.WrappedHttpDeleteRequest;
 import com.github.diegonighty.http.request.types.WrappedHttpGetRequest;
 import com.github.diegonighty.http.request.types.WrappedHttpPostRequest;
 import java.io.IOException;
@@ -79,21 +81,28 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
 
   @Override
   public HttpGetRequest<T> createGetRequest() {
-    setMethod("GET");
+    setMethod(HttpMethod.GET);
 
     return new WrappedHttpGetRequest<>(connection);
   }
 
   @Override
   public HttpPostRequest<T> createPostRequest() {
-    setMethod("POST");
+    setMethod(HttpMethod.POST);
 
     return new WrappedHttpPostRequest<>(connection);
   }
 
-  private void setMethod(String method) {
+  @Override
+  public HttpDeleteRequest createDeleteRequest() {
+    setMethod(HttpMethod.DELETE);
+
+    return new WrappedHttpDeleteRequest(connection);
+  }
+
+  private void setMethod(HttpMethod method) {
     try {
-      connection.setRequestMethod(method);
+      connection.setRequestMethod(method.name());
     } catch (ProtocolException e) {
       e.printStackTrace();
     }

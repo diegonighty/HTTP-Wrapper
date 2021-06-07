@@ -1,5 +1,6 @@
 package com.github.diegonighty.http;
 
+import com.github.diegonighty.http.request.types.HttpDeleteRequest;
 import com.github.diegonighty.http.request.types.HttpGetRequest;
 import com.github.diegonighty.http.request.types.HttpPostRequest;
 import com.github.diegonighty.http.util.HeaderMap;
@@ -59,6 +60,25 @@ public interface HttpConnection<T> {
    */
   HttpPostRequest<T> createPostRequest();
 
+  /**
+   * Performs a delete request
+   *
+   * @return delete request
+   */
+  HttpDeleteRequest createDeleteRequest();
+
+  /**
+   * HTTP Methods for the request
+   * @see <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods"> List of method request and usage </a>
+   */
+  enum HttpMethod {
+
+    GET,
+    POST,
+    UPDATE,
+    DELETE
+
+  }
   /**
    * HTTP headers for the request
    * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>

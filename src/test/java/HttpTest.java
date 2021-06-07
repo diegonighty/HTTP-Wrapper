@@ -71,7 +71,27 @@ public class HttpTest {
     } catch (FailedConnectionException e) {
       e.printStackTrace();
     }
+  }
 
+  @Test
+  @DisplayName("test_new_delete")
+  void test_new_delete() {
+    String url = "https://jsonplaceholder.typicode.com/posts/1";
+
+    try (CloseableConnection<Void> connection = Connections.of(url)) {
+
+      HttpResponse<Integer> response = connection.open()
+          .addRequestField(RequestField.USER_AGENT, "Mozilla/5.0")
+          .createDeleteRequest()
+          .execute();
+
+      int result = response.result();
+
+      Assertions.assertEquals(200, result);
+
+    } catch (FailedConnectionException e) {
+      e.printStackTrace();
+    }
   }
 
   public static class Post {
