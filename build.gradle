@@ -1,9 +1,22 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'com.github.diegonighty.httpwrapper'
 version 'v2.0'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId "com.github.diegonighty.http"
+            artifactId "HTTP-Wrapper"
+            version "v2.0"
+
+            from components.java
+        }
+    }
+}
 
 repositories {
     mavenCentral()

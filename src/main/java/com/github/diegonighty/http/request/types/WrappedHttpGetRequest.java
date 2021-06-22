@@ -4,6 +4,8 @@ import com.github.diegonighty.http.exception.FailedConnectionException;
 import com.github.diegonighty.http.response.HttpResponse;
 import com.github.diegonighty.http.response.WrappedHttpResponse;
 import com.github.diegonighty.http.serialization.ResponseDeserializer;
+import com.github.diegonighty.http.util.StatusCode;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +39,7 @@ public final class WrappedHttpGetRequest<T> implements HttpGetRequest<T> {
     try {
       connection.connect();
 
-      if (connection.getResponseCode() != 200) {
+      if (!StatusCode.isSuccessful(connection.getResponseCode())) {
         throw new FailedConnectionException("Server is not responding", connection.getResponseCode());
       }
 

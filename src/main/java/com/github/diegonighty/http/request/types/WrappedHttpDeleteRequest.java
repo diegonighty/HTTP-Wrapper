@@ -3,6 +3,8 @@ package com.github.diegonighty.http.request.types;
 import com.github.diegonighty.http.exception.FailedConnectionException;
 import com.github.diegonighty.http.response.HttpResponse;
 import com.github.diegonighty.http.response.WrappedNotSerializedResponse;
+import com.github.diegonighty.http.util.StatusCode;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
@@ -23,7 +25,7 @@ public class WrappedHttpDeleteRequest implements HttpDeleteRequest {
     try {
       connection.connect();
 
-      if (connection.getResponseCode() != 200) {
+      if (!StatusCode.isSuccessful(connection.getResponseCode())) {
         throw new FailedConnectionException("Server is not responding", connection.getResponseCode());
       }
 

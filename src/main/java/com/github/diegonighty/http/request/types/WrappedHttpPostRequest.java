@@ -4,6 +4,8 @@ import com.github.diegonighty.http.exception.FailedConnectionException;
 import com.github.diegonighty.http.response.HttpResponse;
 import com.github.diegonighty.http.response.WrappedNotSerializedResponse;
 import com.github.diegonighty.http.serialization.RequestSerializer;
+import com.github.diegonighty.http.util.StatusCode;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -57,8 +59,8 @@ public class WrappedHttpPostRequest<T> implements HttpPostRequest<T> {
         stream.write(bytes);
       }
 
-      if (connection.getResponseCode() != 201 && connection.getResponseCode() != 200) {
-        throw new FailedConnectionException("Data is not posted correctly", connection.getResponseCode());
+      if (!StatusCode.isSuccessful(connection.getResponseCode())) {
+        throw new FailedConnectionException("Server is not responding", connection.getResponseCode());
       }
 
       return new WrappedNotSerializedResponse(connection.getResponseCode());

@@ -21,6 +21,6 @@ public class WrappedNotSerializedResponse implements HttpResponse<Integer> {
    */
   @Override
   public int code() {
-    return 0;
+    return code;
   }
 }
