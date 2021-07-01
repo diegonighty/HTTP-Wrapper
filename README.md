@@ -32,7 +32,7 @@
     <a href="https://diegonighty.github.io/HTTP-Wrapper/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/DiegoNighty/HTTP-Wrapper/blob/main/src/test/java/HTTPTest.java">Examples</a>
+    <a href="https://github.com/DiegoNighty/HTTP-Wrapper/blob/main/src/test/java/HttpTest.java">Examples</a>
     ·
     <a href="https://github.com/DiegoNighty/HTTP-Wrapper/issues">Report Bug</a>
     ·
@@ -78,7 +78,7 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-In the test package [here](https://github.com/DiegoNighty/HTTP-Wrapper/blob/main/src/test/java/com/github/diegonighty/http/test/HTTPTest.java) you can view a example code
+In the test package [here](https://github.com/DiegoNighty/HTTP-Wrapper/blob/main/src/test/java/HttpTest.java) you can view a example code
 
 _For more examples, please refer to the [Documentation](https://diegonighty.github.io/HTTP-Wrapper/)_
 
