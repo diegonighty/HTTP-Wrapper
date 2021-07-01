@@ -4,8 +4,16 @@ plugins {
     id 'maven'
 }
 
-group 'com.github.diegonighty.httpwrapper'
-version 'v2.0'
+group 'com.github.diegonighty.http'
+version '2.0'
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+}
 
 artifacts {
     archives sourcesJar
@@ -37,7 +45,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId "com.github.diegonighty.http"
             artifactId "HTTP-Wrapper"
-            version "v2.0"
+            version "2.0"
 
             from components.java
         }
