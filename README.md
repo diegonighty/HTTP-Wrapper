@@ -51,13 +51,13 @@ This is an example of how to list things you need to use the software and how to
 * Gradle
   ```groovy
   repositories {
-	    maven { 
+     maven { 
           url 'https://jitpack.io' 
      }
   }
  
   dependencies {
-	     implementation 'com.github.DiegoNighty:HTTP-Wrapper:v1.1'
+  	implementation 'com.github.DiegoNighty:HTTP-Wrapper:2.0.0'
   }
   ```
 
@@ -71,7 +71,7 @@ This is an example of how to list things you need to use the software and how to
   <dependency>
       <groupId>com.github.diegonighty</groupId>
       <artifactId>HTTP-Wrapper</artifactId>
-      <version>v2.0</version>
+      <version>2.0.0</version>
   </dependency>
   ```
 
