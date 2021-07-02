@@ -14,6 +14,8 @@ public interface HttpConnection<T> {
    *
    * @param field Field that will be added in the headers of the request
    * @param value Value of the field, this will be serialized to string
+   *
+   * @return The same connection with the changes
    */
   default <V> HttpConnection<T> addRequestField(RequestField field, V value) {
     return addRequestField(field.parse(), value);
@@ -25,6 +27,8 @@ public interface HttpConnection<T> {
    *
    * @param field Field that will be added in the headers of the request
    * @param value Value of the field, this will be serialized to string
+   *
+   * @return The same connection with the changes
    */
   <V> HttpConnection<T> addRequestField(String field, V value);
 
@@ -33,6 +37,8 @@ public interface HttpConnection<T> {
    * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
    *
    * @param map Map containing all fields and values, the values will be serialized to string
+   *
+   * @return The same connection with the changes
    */
   default HttpConnection<T> addRequestFields(HeaderMap map) {
     return addRequestFields(map.getHeaderMap());
@@ -43,6 +49,8 @@ public interface HttpConnection<T> {
    * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
    *
    * @param map Map containing all fields and values, the values will be serialized to string
+   *
+   * @return The same connection with the changes
    */
   HttpConnection<T> addRequestFields(Map<String, Object> map);
 
