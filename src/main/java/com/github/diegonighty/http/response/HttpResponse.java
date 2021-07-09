@@ -7,6 +7,8 @@ public interface HttpResponse<T> {
   /**
    * Result of the HTTP Request
    * @return http response serialized
+   *
+   * @throws IOException if an I/O exception occurs.
    */
   T result() throws IOException;
 
