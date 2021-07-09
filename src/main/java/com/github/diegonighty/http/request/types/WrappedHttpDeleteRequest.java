@@ -10,31 +10,24 @@ import java.net.HttpURLConnection;
 
 public class WrappedHttpDeleteRequest implements HttpDeleteRequest {
 
-  private final HttpURLConnection connection;
+	private final HttpURLConnection connection;
 
-  public WrappedHttpDeleteRequest(HttpURLConnection connection) {
-    this.connection = connection;
-  }
+	public WrappedHttpDeleteRequest(HttpURLConnection connection) {
+		this.connection = connection;
+	}
 
-  @Override
-  public HttpResponse<Integer> execute() throws FailedConnectionException {
+	@Override
+	public HttpResponse<Integer> execute() throws FailedConnectionException, IOException {
+		connection.setDoOutput(true);
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-    connection.setDoOutput(true);
-    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		connection.connect();
 
-    try {
-      connection.connect();
+		if (!StatusCode.isSuccessful(connection.getResponseCode())) {
+			throw new FailedConnectionException("Server is not responding", connection.getResponseCode());
+		}
 
-      if (!StatusCode.isSuccessful(connection.getResponseCode())) {
-        throw new FailedConnectionException("Server is not responding", connection.getResponseCode());
-      }
-
-      return new WrappedNotSerializedResponse(connection.getResponseCode());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
-  }
+		return new WrappedNotSerializedResponse(connection.getResponseCode());
+	}
 
 }

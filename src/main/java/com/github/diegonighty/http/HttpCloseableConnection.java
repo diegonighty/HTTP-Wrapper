@@ -27,22 +27,7 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
    * {@inheritDoc}
    */
   @Override
-  public CloseableConnection<T> open() {
-    try {
-      this.connection = (HttpURLConnection) new URL(url).openConnection();
-      return this;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public CloseableConnection<T> openHandlingException() throws IOException {
+  public CloseableConnection<T> open() throws IOException {
     this.connection = (HttpURLConnection) new URL(url).openConnection();
 
     return this;

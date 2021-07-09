@@ -1,15 +1,14 @@
-package com.github.diegonighty.http.test;
-
 import com.github.diegonighty.http.CloseableConnection;
 import com.github.diegonighty.http.HttpConnection.RequestField;
 import com.github.diegonighty.http.exception.FailedConnectionException;
 import com.github.diegonighty.http.response.HttpResponse;
-import com.github.diegonighty.http.serialization.common.DefaultResponseDeserializer;
+import com.github.diegonighty.http.serialization.common.JsonSerializationWrapper;
 import com.github.diegonighty.http.util.Connections;
-import com.google.gson.Gson;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 public class HttpTest {
 
@@ -24,14 +23,14 @@ public class HttpTest {
       HttpResponse<Anime> response = connection.open()
           .addRequestField(RequestField.USER_AGENT, "Mozilla/5.0")
           .createGetRequest()
-          .setResponseDeserializer(new DefaultResponseDeserializer<>(Anime.class))
+          .setResponseDeserializer(new JsonSerializationWrapper<>(Anime.class))
           .execute();
 
       Anime episodes = response.result();
 
       Assertions.assertTrue(episodes.getWatching() > 1000);
 
-    } catch (FailedConnectionException e) {
+    } catch (FailedConnectionException | IOException e) {
       e.printStackTrace();
     }
 
@@ -61,14 +60,14 @@ public class HttpTest {
           .addRequestField(RequestField.USER_AGENT, "Mozilla/5.0")
           .createPostRequest()
           .setObject(new Post("sisas", "no", 2))
-          .setSerializer(object -> new Gson().toJson(object))
+          .setSerializer(new JsonSerializationWrapper<>(Post.class))
           .execute();
 
       int result = response.result();
 
       Assertions.assertEquals(201, result);
 
-    } catch (FailedConnectionException e) {
+    } catch (FailedConnectionException | IOException e) {
       e.printStackTrace();
     }
   }
@@ -89,7 +88,7 @@ public class HttpTest {
 
       Assertions.assertEquals(200, result);
 
-    } catch (FailedConnectionException e) {
+    } catch (FailedConnectionException | IOException e) {
       e.printStackTrace();
     }
   }

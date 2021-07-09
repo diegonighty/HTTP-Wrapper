@@ -2,14 +2,17 @@ package com.github.diegonighty.http.response;
 
 import com.github.diegonighty.http.serialization.ResponseDeserializer;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public final class WrappedHttpResponse<R> implements HttpResponse<R> {
 
-  private final String result;
+  private final InputStream result;
   private final int code;
 
   private final ResponseDeserializer<R> deserializer;
 
-  public WrappedHttpResponse(String result, int code, ResponseDeserializer<R> deserializer) {
+  public WrappedHttpResponse(InputStream result, int code, ResponseDeserializer<R> deserializer) {
     this.result = result;
     this.code = code;
 
@@ -20,7 +23,7 @@ public final class WrappedHttpResponse<R> implements HttpResponse<R> {
    * {@inheritDoc}
    */
   @Override
-  public R result() {
+  public R result() throws IOException {
     return deserializer.deserialize(result);
   }
 

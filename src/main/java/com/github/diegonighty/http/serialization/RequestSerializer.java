@@ -1,13 +1,18 @@
 package com.github.diegonighty.http.serialization;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 public interface RequestSerializer<T> {
 
   /**
    * Serialize request to json
    *
    * @param object to be serialized
-   * @return json
+   * @param stream OutputStream involved in the HTTP Request
+   *
+   * @throws IOException if an I/O exception occurs.
    */
-  String serialize(T object);
+  void serialize(T object, OutputStream stream) throws IOException;
 
 }
