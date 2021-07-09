@@ -6,7 +6,6 @@ import com.github.diegonighty.http.response.WrappedNotSerializedResponse;
 import com.github.diegonighty.http.serialization.RequestSerializer;
 import com.github.diegonighty.http.util.StatusCode;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
@@ -49,9 +48,7 @@ public class WrappedHttpPostRequest<T> implements HttpPostRequest<T> {
 
 		connection.connect();
 
-		try (BufferedOutputStream stream = new BufferedOutputStream(connection.getOutputStream())) {
-			serializer.serialize(object, stream);
-		}
+		serializer.serialize(object, connection.getOutputStream());
 
 		if (!StatusCode.isSuccessful(connection.getResponseCode())) {
 			throw new FailedConnectionException("Server is not responding", connection.getResponseCode());
