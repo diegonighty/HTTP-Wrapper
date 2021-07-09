@@ -9,14 +9,14 @@ import com.github.diegonighty.http.util.StatusCode;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
-public class WrappedHttpPostRequest<T> implements HttpPostRequest<T> {
+public class WrappedHttpInputRequest<T> implements HttpInputRequest<T> {
 
 	private final HttpURLConnection connection;
 	private RequestSerializer<T> serializer;
 
 	private T object;
 
-	public WrappedHttpPostRequest(HttpURLConnection connection) {
+	public WrappedHttpInputRequest(HttpURLConnection connection) {
 		this.connection = connection;
 	}
 
@@ -24,7 +24,7 @@ public class WrappedHttpPostRequest<T> implements HttpPostRequest<T> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public HttpPostRequest<T> setSerializer(RequestSerializer<T> serializer) {
+	public HttpInputRequest<T> setSerializer(RequestSerializer<T> serializer) {
 		this.serializer = serializer;
 		return this;
 	}
@@ -33,7 +33,7 @@ public class WrappedHttpPostRequest<T> implements HttpPostRequest<T> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public HttpPostRequest<T> setObject(T object) {
+	public HttpInputRequest<T> setObject(T object) {
 		this.object = object;
 		return this;
 	}

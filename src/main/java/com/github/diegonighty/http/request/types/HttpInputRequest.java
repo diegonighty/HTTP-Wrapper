@@ -3,7 +3,7 @@ package com.github.diegonighty.http.request.types;
 import com.github.diegonighty.http.request.HttpRequest;
 import com.github.diegonighty.http.serialization.RequestSerializer;
 
-public interface HttpPostRequest<T> extends HttpRequest<Integer> {
+public interface HttpInputRequest<T> extends HttpRequest<Integer> {
 
   /**
    * Set custom serializer from object to JSON
@@ -11,7 +11,7 @@ public interface HttpPostRequest<T> extends HttpRequest<Integer> {
    * @param serializer convert object to JSON
    * @return the same http request with the changes
    */
-  HttpPostRequest<T> setSerializer(RequestSerializer<T> serializer);
+  HttpInputRequest<T> setSerializer(RequestSerializer<T> serializer);
 
   /**
    * Set the object to post
@@ -19,6 +19,6 @@ public interface HttpPostRequest<T> extends HttpRequest<Integer> {
    * @param object to post
    * @return the same http request with the changes
    */
-  HttpPostRequest<T> setObject(T object);
+  HttpInputRequest<T> setObject(T object);
 
 }
