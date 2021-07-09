@@ -2,7 +2,7 @@ package com.github.diegonighty.http;
 
 import com.github.diegonighty.http.request.types.HttpDeleteRequest;
 import com.github.diegonighty.http.request.types.HttpGetRequest;
-import com.github.diegonighty.http.request.types.HttpPostRequest;
+import com.github.diegonighty.http.request.types.HttpInputRequest;
 import com.github.diegonighty.http.util.HeaderMap;
 import java.util.Map;
 
@@ -10,12 +10,10 @@ public interface HttpConnection<T> {
 
   /**
    * Add header to http request
-   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
-   *
    * @param field Field that will be added in the headers of the request
    * @param value Value of the field, this will be serialized to string
-   *
    * @return The same connection with the changes
+   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
    */
   default <V> HttpConnection<T> addRequestField(RequestField field, V value) {
     return addRequestField(field.parse(), value);
@@ -23,22 +21,18 @@ public interface HttpConnection<T> {
 
   /**
    * Add header to http request
-   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
-   *
    * @param field Field that will be added in the headers of the request
    * @param value Value of the field, this will be serialized to string
-   *
    * @return The same connection with the changes
+   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
    */
   <V> HttpConnection<T> addRequestField(String field, V value);
 
   /**
    * Add headers to http request
-   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
-   *
    * @param map Map containing all fields and values, the values will be serialized to string
-   *
    * @return The same connection with the changes
+   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
    */
   default HttpConnection<T> addRequestFields(HeaderMap map) {
     return addRequestFields(map.getHeaderMap());
@@ -46,27 +40,36 @@ public interface HttpConnection<T> {
 
   /**
    * Add headers to http request
-   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
-   *
    * @param map Map containing all fields and values, the values will be serialized to string
-   *
    * @return The same connection with the changes
+   * @see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields"> List of header fields and usage </a>
    */
   HttpConnection<T> addRequestFields(Map<String, Object> map);
 
   /**
    * Performs a get request
-   *
    * @return get request
    */
   HttpGetRequest<T> createGetRequest();
 
   /**
    * Performs a post request
-   *
    * @return post request
    */
-  HttpPostRequest<T> createPostRequest();
+  HttpInputRequest<T> createPostRequest();
+
+  /**
+   * Performs a patch request
+   * @return patch request (it really is a POST request, but spoofed with a header inside the connection)
+   */
+  HttpInputRequest<T> createPatchRequest();
+
+  /**
+   * Performs a put request
+   *
+   * @return put request
+   */
+  HttpInputRequest<T> createPutRequest();
 
   /**
    * Performs a delete request
@@ -83,7 +86,7 @@ public interface HttpConnection<T> {
 
     GET,
     POST,
-    UPDATE,
+    PUT,
     DELETE
 
   }

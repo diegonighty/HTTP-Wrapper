@@ -2,10 +2,11 @@ package com.github.diegonighty.http;
 
 import com.github.diegonighty.http.request.types.HttpDeleteRequest;
 import com.github.diegonighty.http.request.types.HttpGetRequest;
-import com.github.diegonighty.http.request.types.HttpPostRequest;
+import com.github.diegonighty.http.request.types.HttpInputRequest;
 import com.github.diegonighty.http.request.types.WrappedHttpDeleteRequest;
 import com.github.diegonighty.http.request.types.WrappedHttpGetRequest;
-import com.github.diegonighty.http.request.types.WrappedHttpPostRequest;
+import com.github.diegonighty.http.request.types.WrappedHttpInputRequest;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
@@ -64,6 +65,9 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     return this;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public HttpGetRequest<T> createGetRequest() {
     setMethod(HttpMethod.GET);
@@ -71,13 +75,40 @@ public final class HttpCloseableConnection<T> implements CloseableConnection<T> 
     return new WrappedHttpGetRequest<>(connection);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public HttpPostRequest<T> createPostRequest() {
+  public HttpInputRequest<T> createPostRequest() {
     setMethod(HttpMethod.POST);
 
-    return new WrappedHttpPostRequest<>(connection);
+    return new WrappedHttpInputRequest<>(connection);
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public HttpInputRequest<T> createPatchRequest() {
+    connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+    setMethod(HttpMethod.POST);
+
+    return new WrappedHttpInputRequest<>(connection);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public HttpInputRequest<T> createPutRequest() {
+    setMethod(HttpMethod.PUT);
+
+    return new WrappedHttpInputRequest<>(connection);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public HttpDeleteRequest createDeleteRequest() {
     setMethod(HttpMethod.DELETE);
